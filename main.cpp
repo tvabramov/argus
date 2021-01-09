@@ -75,10 +75,10 @@ void StartShellLoop() {
           cout << "Invalid input image. Type \"h\" for help." << endl;
           return;
         }
-        int w = std::stoi(args.back());
+        int w = stoi(args.back());
         blur(frame, frame, cv::Size(w, w));
         args.pop_front();
-        library.Push(std::move(frame), args.front());
+        library.Push(move(frame), args.front());
         cout << "Done!" << endl;
       });
   worker_commands.emplace_back(
@@ -96,10 +96,10 @@ void StartShellLoop() {
         args.pop_front();
         auto oname = args.front();
         args.pop_front();
-        int w = std::stoi(args.front());
-        int h = std::stoi(args.back());
+        int w = stoi(args.front());
+        int h = stoi(args.back());
         resize(frame, frame, cv::Size(w, h));
-        library.Push(std::move(frame), oname);
+        library.Push(move(frame), oname);
         cout << "Done!" << endl;
       });
   worker_commands.emplace_back(
@@ -121,17 +121,16 @@ void StartShellLoop() {
   worker_commands.emplace_back(
       list<string>({"h", "help"}), "", "Print help",
       [&worker_commands](list<string> args) {
-        cout << std::left << std::setw(15) << "Command" << std::left
-             << std::setw(35) << "Arguments" << std::left << std::setw(30)
-             << "Description" << endl;
+        cout << left << setw(15) << "Command" << left << setw(35) << "Arguments"
+             << left << setw(30) << "Description" << endl;
         for (const auto &cmd : worker_commands) {
           auto keys = accumulate(
               next(cmd.m_keys.begin()), cmd.m_keys.end(), cmd.m_keys.front(),
               [](const auto &a, const auto &b) { return a + ", " + b; });
 
-          cout << std::left << std::setw(15) << keys << std::left
-               << std::setw(35) << cmd.m_desc_params << std::left
-               << std::setw(30) << cmd.m_desc_use << endl;
+          cout << left << setw(15) << keys << left << setw(35)
+               << cmd.m_desc_params << left << setw(30) << cmd.m_desc_use
+               << endl;
         }
       });
 
@@ -147,10 +146,6 @@ void StartShellLoop() {
     boost::split(words, buf, boost::is_any_of("\t "), boost::token_compress_on);
     words.remove_if([](const auto &item) { return item.empty(); });
 
-    // cout << "Found " << words.size() << " words:" << endl;
-    // for (auto w : words)
-    //  cout << "-" << w << "-" << endl;
-
     auto it_cmd = find_if(worker_commands.begin(), worker_commands.end(),
                           [&words](const auto &item) {
                             return find(item.m_keys.begin(), item.m_keys.end(),
@@ -161,7 +156,7 @@ void StartShellLoop() {
       cout << "Invalid command. Type \"h\" for help." << endl;
     } else {
       words.pop_front();
-      it_cmd->m_operation(std::move(words));
+      it_cmd->m_operation(move(words));
     }
   }
 }
