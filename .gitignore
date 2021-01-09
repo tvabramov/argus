@@ -1,0 +1,41 @@
+# Template from https://github.com/github/gitignore/blob/master/C%2B%2B.gitignore
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Latex temp files
+usermanual/CamTracker_Manual.aux
+usermanual/CamTracker_Manual.log
+usermanual/CamTracker_Manual.out
+usermanual/CamTracker_Manual.toc
+usermanual/CamTracker_Manual.pdf
